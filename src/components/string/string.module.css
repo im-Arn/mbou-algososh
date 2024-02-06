@@ -1,0 +1,25 @@
+.section {
+  padding: 0px 160px 46px;
+}
+
+.form {
+  display: flex;
+  max-width: 567px;
+  margin: auto;
+  gap: 12px;
+  padding-bottom: 120px;
+}
+
+.ul {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.listItem {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
