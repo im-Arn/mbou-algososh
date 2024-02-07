@@ -14,7 +14,7 @@ import { SHORT_DELAY_IN_MS, setDelay } from "../../constants/delays";
 
 export const QueuePage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [queue, setQueue] = useState(new Queue<string>(7));
+  const [queue] = useState(new Queue<string>(7));
   const [elements, setElements] = useState<(TQueue | undefined)[]>(queue.elements().map((elem) => ({ elem, state: false })));
   const [headIndex, setHeadIndex] = useState<number | null>(null);
   const [tailIndex, setTailIndex] = useState<number | null>(null);
@@ -78,7 +78,7 @@ export const QueuePage: React.FC = () => {
   return (
     <SolutionLayout title="Очередь">
       <section>
-        <form className={Style.form}>
+        <form className={Style.form} onSubmit={(e:React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
           <div className={Style.group}>
             <Input
               placeholder="Введите значение"
@@ -91,6 +91,7 @@ export const QueuePage: React.FC = () => {
             />
             <Button
               text="Добавить"
+              type="submit"
               onClick={async () => {
                 updateQueueVisualization(() => {
                   renderQueue("addButton", inputValue);

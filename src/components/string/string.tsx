@@ -35,10 +35,10 @@ export const StringComponent: React.FC = () => {
     }
   };
 
-  const submitHandler: FormEventHandler = (e) => {
+  const submitHandler: FormEventHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    reverseInput(string);
+    await reverseInput(string);
     setLoading(false);
   };
 

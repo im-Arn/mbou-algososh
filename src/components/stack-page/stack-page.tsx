@@ -71,7 +71,7 @@ export const StackPage: React.FC = () => {
   return (
     <SolutionLayout title="Стек">
       <section>
-        <form className={Style.form}>
+        <form className={Style.form} onSubmit={(e:React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
           <div className={Style.container}>
             <Input
               maxLength={4}
@@ -83,6 +83,7 @@ export const StackPage: React.FC = () => {
             />
             <Button
               text="Добавить"
+              type="submit"
               onClick={() => handleButtonClick("addButton")}
               disabled={disableButton.addButton}
               isLoader={loaders.addButton}

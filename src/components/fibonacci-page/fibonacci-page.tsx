@@ -7,7 +7,7 @@ import { Button } from "../ui/button/button";
 import { DELAY_IN_MS, setDelay } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
-  const [inputValue, setInputValue] = useState<number>();
+  const [inputValue, setInputValue] = useState<number>(0);//без 0 ошибка "Warning: A component is changing an uncontrolled input to be controlled."
   const [loading, setLoading] = useState<boolean>(false);
   const [fibonacciSeq, setFibonacciSeq] = useState<number[]>([]);
 
