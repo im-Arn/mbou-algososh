@@ -1,0 +1,29 @@
+.form {
+  display: flex;
+  column-gap: 80px;
+  margin: 0 auto;
+  max-width: 829px;
+}
+
+.container {
+  display: flex;
+  min-width: 630px;
+  column-gap: 12px;
+}
+
+.ul {
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+  row-gap: 65px;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 52px auto 0;
+  padding: 0;
+}
+
+.listItem {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
