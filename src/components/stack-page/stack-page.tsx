@@ -44,22 +44,48 @@ export const StackPage: React.FC = () => {
 
     if (buttonType === "addButton") {
       stack.push(inputValue);
+      const newStackElements: TStack[] = stack.elements.map((elem, index) => ({
+        elem,
+        state: index === stack.elements.length - 1,
+      }));
+      setStackElement(newStackElements);
+      await setDelay(SHORT_DELAY_IN_MS);
+      setStackElement((prevNumbers) =>
+        prevNumbers.map((element) => ({ ...element, state: false }))
+      );
+
+
     } else if (buttonType === "deleteButton") {
+      setStackElement((prevNumbers) =>
+        prevNumbers.map((elem, index) => ({ ...elem, state: index === prevNumbers.length - 1 }))
+      );
+      await setDelay(SHORT_DELAY_IN_MS);
       stack.pop();
+      const newStackElements: TStack[] = stack.elements.map((elem) => ({
+        elem,
+        state: false,
+      }));
+      setStackElement(newStackElements);
+
     } else if (buttonType === "clearButton") {
       stack.clear();
+      const newStackElements: TStack[] = stack.elements.map((elem, index) => ({
+        elem,
+        state: index === stack.elements.length - 1,
+      }));
+      setStackElement(newStackElements);
     }
 
-    const newStackElements: TStack[] = stack.elements.map((elem, index) => ({
-      elem,
-      state: index === stack.elements.length - 1,
-    }));
 
-    setStackElement(newStackElements);
-    await setDelay(SHORT_DELAY_IN_MS);
-    setStackElement((prevNumbers) =>
-      prevNumbers.map((element) => ({ ...element, color: false }))
-    );
+    // const newStackElements: TStack[] = stack.elements.map((elem, index) => ({
+    //   elem,
+    //   state: index === stack.elements.length - 1,
+    // }));
+    // setStackElement(newStackElements);
+    // await setDelay(SHORT_DELAY_IN_MS);
+    // setStackElement((prevNumbers) =>
+    //   prevNumbers.map((element) => ({ ...element, state: false }))
+    // );
 
     setInputValue("");
 
@@ -71,7 +97,7 @@ export const StackPage: React.FC = () => {
   return (
     <SolutionLayout title="Стек">
       <section>
-        <form className={Style.form} onSubmit={(e:React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
+        <form className={Style.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
           <div className={Style.container}>
             <Input
               maxLength={4}
@@ -87,18 +113,21 @@ export const StackPage: React.FC = () => {
               onClick={() => handleButtonClick("addButton")}
               disabled={disableButton.addButton}
               isLoader={loaders.addButton}
+              data-test="button"
             />
             <Button
               text="Удалить"
               onClick={() => handleButtonClick("deleteButton")}
               disabled={disableButton.deleteButton}
               isLoader={loaders.deleteButton}
+              data-test="button"
             />
           </div>
           <Button
             text="Очистить"
             onClick={() => handleButtonClick("clearButton")}
             disabled={disableButton.clearButton}
+            data-test="button"
           />
         </form>
         <ul className={Style.ul}>

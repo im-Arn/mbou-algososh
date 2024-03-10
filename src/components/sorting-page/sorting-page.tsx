@@ -10,106 +10,27 @@ import { ElementStates } from "../../types/element-states";
 import { Direction } from "../../types/direction";
 import { TNumber } from "../../types/types";
 //const
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS, setDelay } from "../../constants/delays";
-import { randomArray } from "../../constants/const";
+import { randomSortingArray, swapElements, SortingType } from "../../constants/const";
+//FUNC
+import { bubbleSort, selectionSort } from './utils';
 
 export const SortingPage: React.FC = () => {
-  const minMax: number [] = [3, 17]; //задаём допустимую длину массива
-  const [loader, setLoader] = useState<"ascending" | "descending" | "">("");
-  const [radioValue, setRadioValue] = useState<string>(''); //следим за значением радио
-  const [array, setArray] = useState<Array<TNumber>>(randomArray(minMax).map((num) => ({
-    num,
-    state: undefined,
-  })));
+  const [array, setArray] = useState<Array<TNumber>>(randomSortingArray(3, 17, 100));
+  const [sortingType, setSortingType] = useState<SortingType>(SortingType.Bubble);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [activeButton, setActiveButton] = useState<string | null>(null);
 
-  const createArray = () => {
-    setArray(
-      randomArray(minMax).map((num) => ({
-        num,
-        state: undefined,
-      }))
-    );
-  };
-
-  const swapOrSetState = async (swapState: "swap" | "noSwap" | "solo" | "radio", //моё милое чудовище <3
-  stateData: "loading" | "load" | undefined , delay: number, array: Array<TNumber>, index1: number, index2?: number, ) => {
-    if (swapState === "swap" && index2 ) {
-      const temp: TNumber = array[index1];
-      array[index1] = { ...array[index2], state: stateData };
-      array[index2] = { ...temp, state: stateData };
-      setArray([...array]);
-      await setDelay(delay);
-    }
-    if (swapState === "noSwap"  && index2) {
-      array[index1] = { ...array[index1], state: stateData };
-      array[index2] = { ...array[index2], state: stateData };
-      setArray([...array]);
-      await setDelay(delay);
-    }
-    if (swapState === "radio") {
-      array[index1] = { ...array[index1], state: stateData };
-      setArray([...array]);
-      await setDelay(delay);
-      array[index1] = { ...array[index1], state: undefined };
-      setArray([...array]);
-    }
-    else {
-      array[index1] = { ...array[index1], state: stateData };
-      setArray([...array]);
-    }
-  };
-  
-  //сортировка пузырьком -------------------------
-  const bubbleSort = async (array: Array<TNumber>, direction: Direction) => {
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < array.length - i - 1; j++) {
-        await swapOrSetState("noSwap", "loading", SHORT_DELAY_IN_MS, array, j, j + 1);
-        await swapOrSetState("noSwap", undefined, SHORT_DELAY_IN_MS, array, j, j + 1);
-        if (
-          (direction === Direction.Ascending && array[j].num > array[j + 1].num) || //определяем направление сортировки
-          (direction === Direction.Descending && array[j].num < array[j + 1].num)
-        ) {
-
-          await swapOrSetState("swap", undefined, SHORT_DELAY_IN_MS, array, j, j + 1);
-          // await swapOrSetState("noSwap", undefined, array, j, j + 1);
-        }
-      }
-      await swapOrSetState("solo", "load", SHORT_DELAY_IN_MS, array, array.length - i - 1 );
-    }
-  };
-  //сортировка выбором ---------------------------
-  const selectSort = async (array: Array<TNumber>, direction: Direction) => {
-    for (let i = 0; i < array.length - 1; i++) {
-      let minIndex = i;
-      await swapOrSetState("solo", "loading", SHORT_DELAY_IN_MS, array, i, i);//красим первого участника сортировки
-      await setDelay(DELAY_IN_MS);
-      for (let j = i + 1; j < array.length; j++) {
-        await swapOrSetState("radio", "loading", DELAY_IN_MS, array, j, j);//красим второго участника сортировки
-        if (
-          (direction === Direction.Ascending && array[minIndex].num > array[j].num) || //определяем направление сортировки
-          (direction === Direction.Descending && array[minIndex].num < array[j].num)
-        ) {
-          minIndex = j;
-        }
-
-      }
-      await swapOrSetState("swap", undefined, SHORT_DELAY_IN_MS, array, i, minIndex); //сортируем, сбрасываем окраску
-      await swapOrSetState("solo", "load", SHORT_DELAY_IN_MS, array, i, array.length); //красим отсортированный элемент
-    }
-    await swapOrSetState("solo", "load", SHORT_DELAY_IN_MS, array, array.length - 1, array.length - 1);
-  };
-
-  //инициализация сортировки ---------------------------
   const startAndDefineSorting = async (direction: Direction) => {
-    setLoader(direction);
-    if (radioValue === "select") {
-      await selectSort(array, direction);
-
-    } else {
-      await  bubbleSort(array, direction);
+    setActiveButton(direction);
+    setLoading(true);
+    if (sortingType === SortingType.Bubble) {
+      await bubbleSort([...array], direction, setArray);
+    } else if (sortingType === SortingType.Selection) {
+      await selectionSort([...array], direction, setArray);
     }
-    setLoader("");
+    setLoading(false);
   };
+
 
   return (
     <SolutionLayout title="Сортировка массива">
@@ -119,86 +40,58 @@ export const SortingPage: React.FC = () => {
             <RadioInput
               label="Выбор"
               value={"Выбор"}
-              name="sorting"
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setRadioValue("select")
-              }
+              checked={sortingType === SortingType.Selection}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSortingType(SortingType.Selection)}
             />
             <RadioInput
               label="Пузырёк"
               value={"Пузырёк"}
-              name="sorting"
-              defaultChecked
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setRadioValue("bubble")
-              }
+              checked={sortingType === SortingType.Bubble}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSortingType(SortingType.Bubble)}
             />
           </div>
           <div className={Style.buttons}>
             <Button
               text="По возрастанию"
+              type="button"
               sorting={Direction.Ascending}
-              style={{ width: 205 }}
-              onClick={() => {
-                startAndDefineSorting(Direction.Ascending);
-              }}
-              disabled={loader !== ""}
-              isLoader={loader === 'ascending'}
+              onClick={() => startAndDefineSorting(Direction.Ascending)}
+              isLoader={activeButton === Direction.Ascending && isLoading}
+              disabled={isLoading && activeButton !== Direction.Ascending}
             />
             <Button
               text="По убыванию"
+              type="button"
               sorting={Direction.Descending}
-              style={{ width: 205 }}
-              onClick={() => {
-                startAndDefineSorting(Direction.Descending);
-              }}
-              disabled={loader !== ""}
-              isLoader={loader === 'descending'}
+              onClick={() => startAndDefineSorting(Direction.Descending)}
+              isLoader={activeButton === Direction.Descending && isLoading}
+              disabled={isLoading && activeButton !== Direction.Descending}
             />
           </div>
           <Button
             text="Новый массив"
+            type="button"
             style={{ width: 205 }}
-            onClick={createArray}
-            disabled={loader !== ""}
+            onClick={() => {
+              setActiveButton('newArray');
+              setArray(randomSortingArray(3, 17, 100));
+            }}
+            isLoader={activeButton === 'newArray' && isLoading}
+            disabled={isLoading && activeButton !== 'newArray'}
           />
         </form>
         <ul className={Style.ul}>
           {array.map((num, index) => (
             <li className={Style.listItem} key={index}>
               <Column
-                index={num.num}
+                index={num.value}
                 key={index}
-                state={(num.state === "loading") ? ElementStates.Changing : (num.state === "load") ? ElementStates.Modified : ElementStates.Default}
+                state={num.state}
               />
             </li>
           ))}
         </ul>
       </section>
-    </SolutionLayout >
+    </SolutionLayout>
   );
 };
-
-  // const bubbleSort = async (array: Array<TNumber>, direction: Direction) => {
-  //   for (let i = 0; i < array.length; i++) {
-  //     for (let j = 0; j < array.length - i - 1; j++) {
-  //       if (
-  //         (direction === Direction.Ascending && array[j].num > array[j + 1].num) || //определяем направление сортировки
-  //         (direction === Direction.Descending && array[j].num < array[j + 1].num)
-  //       ) {
-  //         const temp: TNumber = array[j];
-  //         array[j] = { ...array[j], state: "loading" };// сначала красим
-  //         array[j + 1] = { ...array[j + 1], state: "loading" };
-  //         setArray([...array]);
-  //         await setDelay(SHORT_DELAY_IN_MS);
-  //         array[j] = { ...array[j + 1], state: undefined }; // затем сортируем
-  //         array[j + 1] = { ...temp, state: undefined };
-  //         setArray([...array]);
-  //         await setDelay(DELAY_IN_MS);
-  //       }
-  //     }
-  //     array[array.length - i - 1] = { ...array[array.length - i - 1], state: "load" };// если обнаружено уже отсортированное, красим 
-  //     array[0] = { ...array[0], state: "load" };
-  //     setArray([...array]);
-  //   }
-  // }

@@ -243,6 +243,7 @@ export const ListPage: React.FC = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setInputValue(e.target.value);
               }}
+              data-test="input"
             />
             <Button
               text="Добавить в head"
@@ -250,6 +251,7 @@ export const ListPage: React.FC = () => {
               onClick={addHead}
               disabled={disableButton.addButton}
               isLoader={loaders.addHead}
+              data-test="button"
             />
             <Button
               text="Добавить в tail"
@@ -257,6 +259,7 @@ export const ListPage: React.FC = () => {
               onClick={addTail}
               disabled={disableButton.addButton}
               isLoader={loaders.addTail}
+              data-test="button"
             />
             <Button
               text="Удалить из head"
@@ -284,6 +287,7 @@ export const ListPage: React.FC = () => {
               type="number"
               min={0}
               max={list.toArray().length}
+              data-test="index_input"
             />
             <Button
               text="Добавить по индексу"
@@ -292,6 +296,7 @@ export const ListPage: React.FC = () => {
               onClick={addByIndex}
               disabled={disableButton.indexButton}
               isLoader={loaders.addIndex}
+              data-test="button"
             />
             <Button
               text="Удалить по индексу"
@@ -299,6 +304,7 @@ export const ListPage: React.FC = () => {
               onClick={deleteByIndex}
               disabled={disableButton.deleteButton}
               isLoader={loaders.removeIndex}
+              data-test="button"
             />
           </div>
         </form>

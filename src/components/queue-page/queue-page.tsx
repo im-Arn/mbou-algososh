@@ -100,6 +100,7 @@ export const QueuePage: React.FC = () => {
               }}
               disabled={tailIndex === 6 || disableButton.addButton}
               isLoader={loaders.addButton}
+              data-test="button"
             />
             <Button
               text="Удалить"
@@ -110,6 +111,7 @@ export const QueuePage: React.FC = () => {
               }}
               disabled={disableButton.deleteButton}
               isLoader={loaders.deleteButton}
+              data-test="button"
             />
           </div>
           <Button
@@ -121,6 +123,7 @@ export const QueuePage: React.FC = () => {
               setTailIndex(null);
             }}
             disabled={disableButton.clearButton}
+            data-test="button"
           />
         </form>
         <ul className={Style.ul}>

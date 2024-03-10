@@ -57,6 +57,7 @@ export const FibonacciPage: React.FC = () => {
             type="submit"
             isLoader={loading}
             disabled={!inputValue || inputValue > 19}
+            data-test="submit"
           />
         </form>
         <ul className={Style.ul}>
