@@ -16,6 +16,7 @@ exports[`CIRCLE Component Рендер элемента без символов 
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -39,6 +40,7 @@ exports[`CIRCLE Component Рендер элемента в состоянии ch
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -62,6 +64,7 @@ exports[`CIRCLE Component Рендер элемента в состоянии de
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -85,6 +88,7 @@ exports[`CIRCLE Component Рендер элемента в состоянии mo
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -114,6 +118,7 @@ exports[`CIRCLE Component Рендер элемента с react-элемент�
       </div>
       <p
         className="text text_type_input text_color_input mt-4 absolute index"
+        data-test="index_tag"
       />
       <div
         className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -129,6 +134,7 @@ exports[`CIRCLE Component Рендер элемента с react-элемент�
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -152,6 +158,7 @@ exports[`CIRCLE Component Рендер элемента с react-элемент�
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -171,6 +178,7 @@ exports[`CIRCLE Component Рендер элемента с react-элемент�
       </div>
       <p
         className="text text_type_input text_color_input mt-4 absolute index"
+        data-test="index_tag"
       />
       <div
         className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -196,6 +204,7 @@ exports[`CIRCLE Component Рендер элемента с индексом 1`] 
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   >
     1
   </p>
@@ -221,6 +230,7 @@ exports[`CIRCLE Component Рендер элемента с пропом isSmall 
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -246,6 +256,7 @@ exports[`CIRCLE Component Рендер элемента с символом 1`] 
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -271,6 +282,7 @@ exports[`CIRCLE Component Рендер элемента с тэгом head 1`] =
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 element"
@@ -294,6 +306,7 @@ exports[`CIRCLE Component Рендер элемента с тэгом tail 1`] =
   </div>
   <p
     className="text text_type_input text_color_input mt-4 absolute index"
+    data-test="index_tag"
   />
   <div
     className="text text_type_input text_color_input mt-4 absolute tail30 string"
