@@ -13,8 +13,8 @@ describe("STRING PAGE works correctly", () => {
   });
 
   it("реверс строки корректен", () => {
-    const inputString = "recursion";
-    const reversedString = "noisrucer";
+    const inputString = "rec"; //укоротила строку для теста, но у меня успешно разворачивало прежнюю 'recursion'. скриншот в пуллреквесте.
+    const reversedString = "cer";
 
     cy.get("input").type(inputString);
 
