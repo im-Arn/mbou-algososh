@@ -6,39 +6,19 @@ import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 //types
-import { ElementStates } from "../../types/element-states";
 import { TChar } from "../../types/types";
-//const
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS, setDelay } from "../../constants/delays";
+//FUNC
+import { reverseInput } from "./utils";
 
 export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const [string, setString] = useState<Array<TChar> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const reverseInput = async (input: Array<TChar> | null) => {
-    if (input !== null) {
-      const array = input;
-      let lastIndex = input.length - 1;
-      for (let i = 0; i < array.length / 2; i++) {
-        const temp: TChar = array[i];
-        array[i] = { ...array[i], state: "loading" };// сначала красим кружки
-        array[lastIndex] = { ...array[lastIndex], state: "loading" };
-        setString([...array]);
-        await setDelay(SHORT_DELAY_IN_MS);
-        array[i] = { ...array[lastIndex], state: "load" }; // затем сортируем
-        array[lastIndex] = { ...temp, state: "load" };
-        setString([...array]);
-        await setDelay(DELAY_IN_MS);
-        lastIndex--;
-      }
-    }
-  };
-
   const submitHandler: FormEventHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await reverseInput(string);
+    await reverseInput(string, setString);
     setLoading(false);
   };
 
@@ -65,6 +45,7 @@ export const StringComponent: React.FC = () => {
             type="submit"
             isLoader={loading}
             disabled={inputValue === ""}
+            data-test="submit"
           />
         </form>
         <ul className={Style.ul}>
@@ -74,7 +55,7 @@ export const StringComponent: React.FC = () => {
                 <Circle
                   letter={letter.char}
                   key={index}
-                  state={(letter.state === "loading") ? ElementStates.Changing : (letter.state === "load") ? ElementStates.Modified : ElementStates.Default}
+                  state={letter.state}
                 />
               </li>
             ))}

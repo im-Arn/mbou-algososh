@@ -1,11 +1,15 @@
+import { ElementStates } from "./element-states";
+
 export type TChar = {
   char: string;
-  state?: "loading" | "load" | undefined;
+  state?: ElementStates.Changing | ElementStates.Modified | ElementStates.Default;
 };
 
+export type TState = "loading" | "load" | undefined;
+
 export type TNumber = {
-  num: number;
-  state?: "loading" | "load" | undefined;
+  value: number;
+  state: ElementStates;
 };
 
 export type TStack = {
